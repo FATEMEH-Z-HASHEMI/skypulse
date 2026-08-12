@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Header } from "@/components/layout/header";
 import "./globals.css";
 
-// Self-hosted (not next/font/google): this sandbox can't reach
-// fonts.googleapis.com, and self-hosting avoids a third-party request in
-// production too. Variable weight 100–900, licensed under OFL — see
-// assets/fonts/VAZIRMATN-OFL.txt.
 const vazirmatn = localFont({
   src: "../assets/fonts/Vazirmatn-Variable.woff2",
   variable: "--font-vazirmatn",
@@ -47,7 +44,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Header />
+          <main className="flex flex-1 flex-col">{children}</main>
         </ThemeProvider>
       </body>
     </html>
