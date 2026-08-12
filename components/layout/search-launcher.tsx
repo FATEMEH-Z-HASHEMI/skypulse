@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type KeyboardEvent } from "react";
-import { Clock, MapPin, Search } from "lucide-react";
+import { Clock, Heart, MapPin, Search } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui";
 import { useCitySearch } from "@/hooks/use-city-search";
 import { useRecentSearches } from "@/hooks/use-recent-searches";
+import { makeCityId, useFavorites } from "@/hooks/use-favorites";
 import { cn } from "@/lib/utils";
 import type { GeocodingResult } from "@/types/geocoding";
 
@@ -21,6 +22,7 @@ export function SearchLauncher() {
   const [activeIndex, setActiveIndex] = useState(0);
   const { status, results } = useCitySearch(query);
   const { items: recent, add: addRecent } = useRecentSearches();
+  const { isFavorite, toggle: toggleFavorite } = useFavorites();
 
   const showingRecent = query.trim().length < 2;
   const list = showingRecent ? recent : results;
@@ -47,6 +49,18 @@ export function SearchLauncher() {
   function handleSelect(city: GeocodingResult) {
     addRecent(city);
     setOpen(false);
+  }
+
+  function handleToggleFavorite(city: GeocodingResult) {
+    toggleFavorite({
+      id: makeCityId(city.latitude, city.longitude),
+      name: city.name,
+      country: city.country,
+      admin1: city.admin1,
+      latitude: city.latitude,
+      longitude: city.longitude,
+      timezone: city.timezone,
+    });
   }
 
   function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -152,16 +166,15 @@ export function SearchLauncher() {
           )}
 
           {list.map((city, i) => (
-            <button
+            <div
               key={city.id}
               id={`search-result-${city.id}`}
-              type="button"
               role="option"
               aria-selected={i === activeIndex}
               onClick={() => handleSelect(city)}
               onMouseEnter={() => setActiveIndex(i)}
               className={cn(
-                "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors",
+                "flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors",
                 i === activeIndex ? "bg-muted" : "hover:bg-muted/60",
               )}
             >
@@ -178,7 +191,28 @@ export function SearchLauncher() {
                   </span>
                 )}
               </span>
-            </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleToggleFavorite(city);
+                }}
+                aria-label={
+                  isFavorite(makeCityId(city.latitude, city.longitude))
+                    ? `حذف ${city.name} از علاقه‌مندی‌ها`
+                    : `افزودن ${city.name} به علاقه‌مندی‌ها`
+                }
+                className="text-muted-foreground hover:text-danger shrink-0 p-1"
+              >
+                <Heart
+                  className={cn(
+                    "h-4 w-4",
+                    isFavorite(makeCityId(city.latitude, city.longitude)) &&
+                      "fill-danger text-danger",
+                  )}
+                />
+              </button>
+            </div>
           ))}
         </div>
       </DialogContent>

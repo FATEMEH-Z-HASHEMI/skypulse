@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Header } from "@/components/layout/header";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { FavoritesProvider } from "@/components/providers/favorites-provider";
 import "./globals.css";
 
 const vazirmatn = localFont({
@@ -46,8 +47,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange
         >
           <QueryProvider>
-            <Header />
-            <main className="flex flex-1 flex-col">{children}</main>
+            <FavoritesProvider>
+              <Header />
+              <main className="flex flex-1 flex-col">{children}</main>
+            </FavoritesProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>
