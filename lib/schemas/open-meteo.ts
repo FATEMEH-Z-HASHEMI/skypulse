@@ -68,3 +68,15 @@ export const openMeteoGeocodingResponseSchema = z.object({
 export type OpenMeteoGeocodingResponse = z.infer<
   typeof openMeteoGeocodingResponseSchema
 >;
+
+export const openMeteoAirQualitySchema = z.object({
+  current: z.object({
+    us_aqi: z.number(),
+    pm2_5: z.number(),
+    pm10: z.number(),
+    carbon_monoxide: z.number(),
+    nitrogen_dioxide: z.number(),
+    sulphur_dioxide: z.number(),
+    ozone: z.number(),
+  }),
+});
