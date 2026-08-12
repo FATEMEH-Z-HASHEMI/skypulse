@@ -5,6 +5,7 @@ import { useReverseGeocodeQuery } from "@/hooks/use-reverse-geocode-query";
 import { useWeatherQuery } from "@/hooks/use-weather-query";
 import { CurrentWeatherCard } from "@/components/weather/current-weather-card";
 import { Skeleton } from "@/components/ui";
+import { HourlyForecast } from "@/components/weather/hourly-forecast";
 
 export function CurrentWeatherSection() {
   const { status, coords, request } = useGeolocation();
@@ -27,10 +28,16 @@ export function CurrentWeatherSection() {
   }
 
   return (
-    <CurrentWeatherCard
-      cityName={cityQuery.data?.name ?? "موقعیت شما"}
-      weather={weatherQuery.data}
-    />
+    <>
+      <CurrentWeatherCard
+        cityName={cityQuery.data?.name ?? "موقعیت شما"}
+        weather={weatherQuery.data}
+      />
+      <HourlyForecast
+        hourly={weatherQuery.data.hourly}
+        currentTime={weatherQuery.data.current.time}
+      />
+    </>
   );
 }
 
