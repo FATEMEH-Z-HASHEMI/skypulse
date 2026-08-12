@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { LocationGate } from "@/components/location/location-gate";
 
 export default function Home() {
   return (
     <div className="bg-background relative flex flex-1 items-center justify-center overflow-hidden px-6 py-16">
+      {/* Quiet nod to the eventual hero surface — restrained on purpose */}
       <div
         aria-hidden="true"
         className="bg-condition-gradient pointer-events-none absolute -top-40 left-1/2 h-96 w-[36rem] -translate-x-1/2 rounded-full opacity-[0.12] blur-3xl"
@@ -22,11 +24,11 @@ export default function Home() {
         </p>
 
         <div className="border-border mt-6 border-t pt-4">
+          <div className="mb-3">
+            <LocationGate />
+          </div>
           <p className="text-muted-foreground text-xs">
-            Milestone 3 — پوسته‌ی اصلی برنامه آماده است
-          </p>
-          <p className="text-muted-foreground mt-1 text-xs">
-            جستجو را با ⌘K (یا Ctrl+K) امتحان کن
+            Milestone 5 — تشخیص موقعیت مکانی آماده است
           </p>
           <Link
             href="/design-system"
