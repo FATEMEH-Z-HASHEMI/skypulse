@@ -5,6 +5,7 @@ import { useReverseGeocodeQuery } from "@/hooks/use-reverse-geocode-query";
 import { useWeatherQuery } from "@/hooks/use-weather-query";
 import { CurrentWeatherCard } from "@/components/weather/current-weather-card";
 import { Skeleton } from "@/components/ui";
+import { DailyForecast } from "@/components/weather/daily-forecast";
 import { HourlyForecast } from "@/components/weather/hourly-forecast";
 
 export function CurrentWeatherSection() {
@@ -37,6 +38,7 @@ export function CurrentWeatherSection() {
         hourly={weatherQuery.data.hourly}
         currentTime={weatherQuery.data.current.time}
       />
+      <DailyForecast daily={weatherQuery.data.daily} />
     </>
   );
 }
