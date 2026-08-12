@@ -7,6 +7,7 @@ import { CurrentWeatherCard } from "@/components/weather/current-weather-card";
 import { Skeleton } from "@/components/ui";
 import { DailyForecast } from "@/components/weather/daily-forecast";
 import { HourlyForecast } from "@/components/weather/hourly-forecast";
+import { WeatherChart } from "@/components/weather/weather-chart";
 
 export function CurrentWeatherSection() {
   const { status, coords, request } = useGeolocation();
@@ -39,6 +40,10 @@ export function CurrentWeatherSection() {
         currentTime={weatherQuery.data.current.time}
       />
       <DailyForecast daily={weatherQuery.data.daily} />
+      <WeatherChart
+        hourly={weatherQuery.data.hourly}
+        currentTime={weatherQuery.data.current.time}
+      />
     </>
   );
 }
