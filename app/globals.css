@@ -64,10 +64,89 @@
 }
 
 /*
+ * Hero weather effects (Milestone: UI polish) — sun/rain/snow/cloud/storm,
+ * scoped to the hero's `bg-condition-gradient` surface only (see the "one
+ * place condition color is allowed to speak" rule below). All transform/
+ * opacity only — compositor-friendly, and already covered by the
+ * prefers-reduced-motion rule further down since that rule is universal.
+ */
+@keyframes sun-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes sun-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.97;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(340px);
+    opacity: 0;
+  }
+}
+@keyframes snow-fall {
+  0% {
+    transform: translate(0, -10%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(10px, 140px);
+  }
+  100% {
+    transform: translate(-8px, 300px);
+    opacity: 0;
+  }
+}
+@keyframes cloud-drift {
+  from {
+    transform: translateX(-15%);
+  }
+  to {
+    transform: translateX(115%);
+  }
+}
+@keyframes lightning-flash {
+  0%,
+  91%,
+  100% {
+    opacity: 0;
+  }
+  92%,
+  94% {
+    opacity: 0.85;
+  }
+  93% {
+    opacity: 0.15;
+  }
+}
+
+/*
  * Design tokens
  * -------------
  * Two layers:
  *  1) Semantic tokens (--background, --card, --primary, ...) that flip
+
  *     between light and dark via the `.dark` class (next-themes).
  *  2) Condition tokens (--condition-from/to/ink) that flip via a
  *     `data-condition` attribute set on the hero weather surface once

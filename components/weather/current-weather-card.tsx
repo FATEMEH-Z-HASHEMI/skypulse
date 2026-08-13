@@ -1,6 +1,7 @@
 import { Droplets, Eye, Gauge, Sun, Sunrise, Sunset, Wind } from "lucide-react";
 import { formatTime, toPersianDigits } from "@/lib/format";
 import { MetricCard } from "@/components/weather/metric-card";
+import { ConditionEffects } from "@/components/weather/condition-effects";
 import type { WeatherSnapshot } from "@/types/weather";
 
 export function CurrentWeatherCard({
@@ -19,11 +20,15 @@ export function CurrentWeatherCard({
     <div>
       <div
         data-condition={current.condition.key}
-        className="bg-condition-gradient shadow-soft-lg rounded-3xl p-8"
+        className="bg-condition-gradient shadow-soft-lg relative overflow-hidden rounded-3xl p-8"
       >
-        <CityTag className="text-sm opacity-80">{cityName}</CityTag>
+        <div className="pointer-events-none absolute inset-0">
+          <ConditionEffects conditionKey={current.condition.key} />
+        </div>
 
-        <div className="mt-6 flex items-end gap-4">
+        <CityTag className="relative text-sm opacity-80">{cityName}</CityTag>
+
+        <div className="relative mt-6 flex items-end gap-4">
           <p className="tabular text-7xl leading-none font-extrabold">
             {toPersianDigits(Math.round(current.temperature))}°
           </p>
@@ -37,7 +42,7 @@ export function CurrentWeatherCard({
         </div>
 
         {today && (
-          <div className="tabular mt-4 flex gap-4 text-sm opacity-90">
+          <div className="tabular relative mt-4 flex gap-4 text-sm opacity-90">
             <span>
               بیشینه {toPersianDigits(Math.round(today.temperatureMax))}°
             </span>
