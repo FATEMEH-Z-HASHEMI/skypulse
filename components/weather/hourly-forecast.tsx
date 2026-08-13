@@ -1,7 +1,7 @@
-import { Droplets, Wind } from "lucide-react";
+import { CloudOff, Droplets, Wind } from "lucide-react";
 import { toPersianDigits } from "@/lib/format";
 import { ConditionIcon } from "@/components/weather/condition-icon";
-import { Card } from "@/components/ui";
+import { Card, StateCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import type { HourlyForecastEntry } from "@/types/weather";
 
@@ -20,7 +20,21 @@ export function HourlyForecast({
 }) {
   const start = findCurrentIndex(hourly, currentTime);
   const items = hourly.slice(start, start + 24);
-  if (items.length === 0) return null;
+
+  if (items.length === 0) {
+    return (
+      <div className="mt-4">
+        <h2 className="text-foreground mb-3 text-sm font-bold">
+          پیش‌بینی ساعتی
+        </h2>
+        <StateCard
+          icon={CloudOff}
+          title="داده‌ی ساعتی موجود نیست"
+          description="اطلاعات پیش‌بینی ساعتی برای این موقعیت در دسترس نیست."
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mt-4">

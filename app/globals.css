@@ -1,6 +1,69 @@
 @import "tailwindcss";
 
 /*
+ * Micro-interaction keyframes — used by Dialog/Sheet open+close states
+ * (see components/ui/dialog.tsx, sheet.tsx). Kept short (150–200ms) and
+ * property-limited (opacity/transform only) so they stay cheap on mobile.
+ */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* translateX(-50%) is baked in because this keyframe's only consumer
+   (Dialog's centered content) is positioned with `left-1/2
+   -translate-x-1/2`; animating `transform` fully replaces that static
+   value for the animation's duration, so omitting it here caused a
+   horizontal jump on open/close. */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+@keyframes scale-out {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+}
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/*
  * Design tokens
  * -------------
  * Two layers:
@@ -33,6 +96,11 @@
   --warning-foreground: #f7f8fa;
   --danger: #b3432d;
   --danger-foreground: #f7f8fa;
+
+  /* Air-quality severity tiers beyond warning/danger (Milestone 9) */
+  --aqi-sensitive: #b85718;
+  --aqi-very-unhealthy: #8f3f97;
+  --aqi-hazardous: #7e0023;
 
   --ring: #2b6486;
 
@@ -68,6 +136,10 @@
   --warning-foreground: #0b0f17;
   --danger: #e88670;
   --danger-foreground: #0b0f17;
+
+  --aqi-sensitive: #f0a15f;
+  --aqi-very-unhealthy: #c98ed6;
+  --aqi-hazardous: #e8677f;
 
   --ring: #6fb3d9;
 
@@ -118,6 +190,9 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
+  --color-aqi-sensitive: var(--aqi-sensitive);
+  --color-aqi-very-unhealthy: var(--aqi-very-unhealthy);
+  --color-aqi-hazardous: var(--aqi-hazardous);
   --color-ring: var(--ring);
 
   --radius-sm: var(--radius-sm);
@@ -214,5 +289,14 @@
     box-shadow:
       0 12px 32px hsl(var(--shadow-color) / 0.12),
       0 2px 6px hsl(var(--shadow-color) / 0.08);
+  }
+
+  /* Fast, subtle press feedback for tappable elements — transform-only
+     (cheap on mobile) and respects prefers-reduced-motion above. */
+  .tap-scale {
+    transition: transform 120ms ease-out;
+  }
+  .tap-scale:active {
+    transform: scale(0.95);
   }
 }

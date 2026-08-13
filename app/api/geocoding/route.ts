@@ -5,13 +5,14 @@ import { searchCities } from "@/services/geocoding.service";
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query") ?? "";
+  const language = searchParams.get("language") ?? undefined;
 
   if (query.trim().length < 2) {
     return NextResponse.json({ results: [] });
   }
 
   try {
-    const results = await searchCities({ query });
+    const results = await searchCities({ query, language });
     return NextResponse.json(
       { results },
       {

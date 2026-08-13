@@ -6,9 +6,11 @@ import type { WeatherSnapshot } from "@/types/weather";
 export function CurrentWeatherCard({
   cityName,
   weather,
+  titleAs: CityTag = "p",
 }: {
   cityName: string;
   weather: WeatherSnapshot;
+  titleAs?: "h1" | "p";
 }) {
   const { current, daily } = weather;
   const today = daily[0];
@@ -19,7 +21,7 @@ export function CurrentWeatherCard({
         data-condition={current.condition.key}
         className="bg-condition-gradient shadow-soft-lg rounded-3xl p-8"
       >
-        <p className="text-sm opacity-80">{cityName}</p>
+        <CityTag className="text-sm opacity-80">{cityName}</CityTag>
 
         <div className="mt-6 flex items-end gap-4">
           <p className="tabular text-7xl leading-none font-extrabold">
@@ -55,7 +57,9 @@ export function CurrentWeatherCard({
         <MetricCard
           icon={Wind}
           label="باد"
-          value={`${toPersianDigits(Math.round(current.windSpeed))} km/h`}
+          value={`${toPersianDigits(Math.round(current.windSpeed))} ${
+            weather.units.windSpeed === "mph" ? "mph" : "km/h"
+          }`}
         />
         <MetricCard
           icon={Gauge}

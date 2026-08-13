@@ -8,6 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui";
+import { SettingsPanel } from "@/components/settings/settings-panel";
 
 export function SettingsLauncher() {
   return (
@@ -16,7 +17,7 @@ export function SettingsLauncher() {
         <button
           type="button"
           aria-label="تنظیمات"
-          className="border-border text-foreground hover:bg-muted inline-flex h-10 w-10 items-center justify-center rounded-full border"
+          className="border-border text-foreground hover:bg-muted tap-scale inline-flex h-10 w-10 items-center justify-center rounded-full border"
         >
           <SettingsIcon className="h-4 w-4" />
         </button>
@@ -29,9 +30,7 @@ export function SettingsLauncher() {
             واحد دما، زبان، تم و مدیریت شهرهای ذخیره‌شده.
           </SheetDescription>
         </div>
-        <div className="text-muted-foreground flex flex-1 items-center justify-center p-8 text-center text-sm">
-          محتوای این بخش در Milestone 14 اضافه می‌شود.
-        </div>
+        <SettingsPanel />
       </SheetContent>
     </Sheet>
   );

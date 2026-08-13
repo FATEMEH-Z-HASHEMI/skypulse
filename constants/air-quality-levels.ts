@@ -16,8 +16,8 @@ export const AQI_LEVELS: AqiLevel[] = [
   {
     max: 150,
     label: "ناسالم برای گروه‌های حساس",
-    textClass: "text-[#e8792b]",
-    barClass: "bg-[#e8792b]",
+    textClass: "text-aqi-sensitive",
+    barClass: "bg-aqi-sensitive",
   },
   {
     max: 200,
@@ -28,14 +28,14 @@ export const AQI_LEVELS: AqiLevel[] = [
   {
     max: 300,
     label: "خیلی ناسالم",
-    textClass: "text-[#8f3f97]",
-    barClass: "bg-[#8f3f97]",
+    textClass: "text-aqi-very-unhealthy",
+    barClass: "bg-aqi-very-unhealthy",
   },
   {
     max: Infinity,
     label: "خطرناک",
-    textClass: "text-[#7e0023]",
-    barClass: "bg-[#7e0023]",
+    textClass: "text-aqi-hazardous",
+    barClass: "bg-aqi-hazardous",
   },
 ];
 

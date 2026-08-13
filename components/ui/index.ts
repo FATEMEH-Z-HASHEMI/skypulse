@@ -31,4 +31,5 @@ export {
 } from "./sheet";
 export { Badge, type BadgeProps, type BadgeVariant } from "./badge";
 export { Skeleton } from "./skeleton";
+export { StateCard } from "./state-card";
 export { Container } from "./container";

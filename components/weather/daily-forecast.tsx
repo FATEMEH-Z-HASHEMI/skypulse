@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Sun, Sunrise, Sunset } from "lucide-react";
+import { CloudOff, Sun, Sunrise, Sunset } from "lucide-react";
 import { formatTime, toPersianDigits } from "@/lib/format";
 import { ConditionIcon } from "@/components/weather/condition-icon";
+import { StateCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import type { DailyForecastEntry } from "@/types/weather";
 
@@ -17,7 +18,21 @@ function dayLabel(dateStr: string, isToday: boolean) {
 
 export function DailyForecast({ daily }: { daily: DailyForecastEntry[] }) {
   const [selected, setSelected] = useState(0);
-  if (daily.length === 0) return null;
+
+  if (daily.length === 0) {
+    return (
+      <div className="mt-4">
+        <h2 className="text-foreground mb-3 text-sm font-bold">
+          پیش‌بینی هفتگی
+        </h2>
+        <StateCard
+          icon={CloudOff}
+          title="داده‌ی هفتگی موجود نیست"
+          description="اطلاعات پیش‌بینی هفتگی برای این موقعیت در دسترس نیست."
+        />
+      </div>
+    );
+  }
 
   const overallMax = Math.max(...daily.map((d) => d.temperatureMax));
   const overallMin = Math.min(...daily.map((d) => d.temperatureMin));
@@ -28,7 +43,11 @@ export function DailyForecast({ daily }: { daily: DailyForecastEntry[] }) {
     <div className="mt-4">
       <h2 className="text-foreground mb-3 text-sm font-bold">پیش‌بینی هفتگی</h2>
 
-      <div className="border-border bg-card shadow-soft-sm divide-border divide-y rounded-2xl border">
+      <div
+        role="tablist"
+        aria-label="روزهای هفته"
+        className="border-border bg-card shadow-soft-sm divide-border divide-y rounded-2xl border"
+      >
         {daily.map((day, i) => {
           const barStart = ((day.temperatureMin - overallMin) / range) * 100;
           const barWidth =
@@ -37,6 +56,10 @@ export function DailyForecast({ daily }: { daily: DailyForecastEntry[] }) {
             <button
               key={day.date}
               type="button"
+              role="tab"
+              id={`daily-tab-${i}`}
+              aria-selected={i === selected}
+              aria-controls="daily-detail-panel"
               onClick={() => setSelected(i)}
               className={cn(
                 "flex w-full items-center gap-3 px-4 py-3 text-sm transition-colors",
@@ -60,7 +83,7 @@ export function DailyForecast({ daily }: { daily: DailyForecastEntry[] }) {
               </span>
               <span className="bg-muted relative h-1.5 flex-1 rounded-full">
                 <span
-                  className="bg-primary/70 absolute h-full rounded-full"
+                  className="bg-primary/70 absolute h-full rounded-full transition-[width,inset-inline-start] duration-500 ease-out"
                   style={{
                     insetInlineStart: `${barStart}%`,
                     width: `${barWidth}%`,
@@ -76,23 +99,34 @@ export function DailyForecast({ daily }: { daily: DailyForecastEntry[] }) {
       </div>
 
       {active && (
-        <div className="border-border bg-card shadow-soft-sm mt-3 grid grid-cols-3 gap-3 rounded-2xl border p-4">
+        <div
+          id="daily-detail-panel"
+          role="tabpanel"
+          aria-labelledby={`daily-tab-${selected}`}
+          className="border-border bg-card shadow-soft-sm mt-3 grid grid-cols-3 gap-3 rounded-2xl border p-4"
+        >
           <div className="flex flex-col items-center gap-1 text-center">
-            <Sun className="text-muted-foreground h-5 w-5" />
+            <Sun className="text-muted-foreground h-5 w-5" aria-hidden="true" />
             <p className="tabular text-sm font-bold">
               {toPersianDigits(active.uvIndexMax.toFixed(1))}
             </p>
             <p className="text-muted-foreground text-xs">حداکثر UV</p>
           </div>
           <div className="flex flex-col items-center gap-1 text-center">
-            <Sunrise className="text-muted-foreground h-5 w-5" />
+            <Sunrise
+              className="text-muted-foreground h-5 w-5"
+              aria-hidden="true"
+            />
             <p className="tabular text-sm font-bold">
               {formatTime(active.sunrise)}
             </p>
             <p className="text-muted-foreground text-xs">طلوع</p>
           </div>
           <div className="flex flex-col items-center gap-1 text-center">
-            <Sunset className="text-muted-foreground h-5 w-5" />
+            <Sunset
+              className="text-muted-foreground h-5 w-5"
+              aria-hidden="true"
+            />
             <p className="tabular text-sm font-bold">
               {formatTime(active.sunset)}
             </p>

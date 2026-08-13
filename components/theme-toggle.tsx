@@ -31,7 +31,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={isDark ? "روشن‌کردن حالت روز" : "روشن‌کردن حالت شب"}
       title={isDark ? "حالت روز" : "حالت شب"}
       className={cn(
-        "border-border bg-card text-foreground hover:bg-muted inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors focus-visible:outline-none",
+        "border-border bg-card text-foreground hover:bg-muted tap-scale inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors focus-visible:outline-none",
         className,
       )}
     >

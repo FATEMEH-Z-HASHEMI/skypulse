@@ -12,7 +12,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { CloudOff } from "lucide-react";
 import { toPersianDigits } from "@/lib/format";
+import { StateCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import type { HourlyForecastEntry } from "@/types/weather";
 
@@ -49,7 +51,17 @@ export function WeatherChart({
   const [metric, setMetric] = useState<Metric>("temperature");
   const start = findCurrentIndex(hourly, currentTime);
   const items = hourly.slice(start, start + 24);
-  if (items.length === 0) return null;
+
+  if (items.length === 0) {
+    return (
+      <StateCard
+        icon={CloudOff}
+        title="نموداری برای نمایش موجود نیست"
+        description="داده‌ی ۲۴ ساعت آینده برای این موقعیت در دسترس نیست."
+        className="mt-4"
+      />
+    );
+  }
 
   const data = items.map((h) => ({
     time: toPersianDigits(h.time.slice(11, 16)),
@@ -66,11 +78,19 @@ export function WeatherChart({
         <h2 className="text-foreground text-sm font-bold">
           نمودار ۲۴ ساعت آینده
         </h2>
-        <div className="bg-muted flex gap-1 rounded-lg p-1">
+        <div
+          role="tablist"
+          aria-label="نوع نمودار"
+          className="bg-muted flex gap-1 rounded-lg p-1"
+        >
           {METRICS.map((m) => (
             <button
               key={m.key}
               type="button"
+              role="tab"
+              id={`chart-tab-${m.key}`}
+              aria-selected={m.key === metric}
+              aria-controls="chart-panel"
               onClick={() => setMetric(m.key)}
               className={cn(
                 "rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
@@ -86,6 +106,7 @@ export function WeatherChart({
       </div>
 
       <div
+        id="chart-panel"
         role="img"
         aria-label={`نمودار ${active.label} برای ۲۴ ساعت آینده`}
         className="h-56 w-full"

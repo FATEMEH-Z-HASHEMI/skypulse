@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Header } from "@/components/layout/header";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { FavoritesProvider } from "@/components/providers/favorites-provider";
+import { SettingsProvider } from "@/components/providers/settings-provider";
 import "./globals.css";
 
 const vazirmatn = localFont({
@@ -47,10 +48,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange
         >
           <QueryProvider>
-            <FavoritesProvider>
-              <Header />
-              <main className="flex flex-1 flex-col">{children}</main>
-            </FavoritesProvider>
+            <SettingsProvider>
+              <FavoritesProvider>
+                <a
+                  href="#main-content"
+                  className="bg-primary text-primary-foreground fixed start-3 -top-full z-50 rounded-lg px-4 py-2 text-sm font-medium focus-visible:start-3 focus-visible:top-3 focus-visible:outline-none"
+                >
+                  رفتن به محتوای اصلی
+                </a>
+                <Header />
+                <main id="main-content" className="flex flex-1 flex-col">
+                  {children}
+                </main>
+              </FavoritesProvider>
+            </SettingsProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>

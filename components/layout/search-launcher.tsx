@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type KeyboardEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Clock, Heart, MapPin, Search } from "lucide-react";
 import {
   Dialog,
@@ -13,10 +14,12 @@ import {
 import { useCitySearch } from "@/hooks/use-city-search";
 import { useRecentSearches } from "@/hooks/use-recent-searches";
 import { makeCityId, useFavorites } from "@/hooks/use-favorites";
+import { cityHref } from "@/lib/city-href";
 import { cn } from "@/lib/utils";
 import type { GeocodingResult } from "@/types/geocoding";
 
 export function SearchLauncher() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -49,6 +52,7 @@ export function SearchLauncher() {
   function handleSelect(city: GeocodingResult) {
     addRecent(city);
     setOpen(false);
+    router.push(cityHref(city));
   }
 
   function handleToggleFavorite(city: GeocodingResult) {
@@ -82,7 +86,7 @@ export function SearchLauncher() {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="border-border bg-muted/60 text-muted-foreground hover:border-ring/40 hidden h-10 w-full max-w-sm items-center gap-2 rounded-lg border px-3 text-sm transition-colors md:flex"
+          className="border-border bg-muted/60 text-muted-foreground hover:border-ring/40 tap-scale hidden h-10 w-full max-w-sm items-center gap-2 rounded-lg border px-3 text-sm transition-colors md:flex"
         >
           <Search className="h-4 w-4 shrink-0" />
           <span className="flex-1 text-start">جستجوی شهر...</span>
@@ -98,7 +102,7 @@ export function SearchLauncher() {
         <button
           type="button"
           aria-label="جستجوی شهر"
-          className="border-border text-foreground hover:bg-muted inline-flex h-10 w-10 items-center justify-center rounded-full border md:hidden"
+          className="border-border text-foreground hover:bg-muted tap-scale inline-flex h-10 w-10 items-center justify-center rounded-full border md:hidden"
         >
           <Search className="h-4 w-4" />
         </button>
@@ -118,6 +122,7 @@ export function SearchLauncher() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}
             type="text"
+            aria-label="جستجوی شهر"
             placeholder="نام شهر را وارد کنید..."
             className="placeholder:text-muted-foreground h-14 flex-1 bg-transparent text-base focus-visible:outline-none"
             role="combobox"
@@ -174,7 +179,7 @@ export function SearchLauncher() {
               onClick={() => handleSelect(city)}
               onMouseEnter={() => setActiveIndex(i)}
               className={cn(
-                "flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors",
+                "tap-scale flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors",
                 i === activeIndex ? "bg-muted" : "hover:bg-muted/60",
               )}
             >
@@ -202,11 +207,11 @@ export function SearchLauncher() {
                     ? `حذف ${city.name} از علاقه‌مندی‌ها`
                     : `افزودن ${city.name} به علاقه‌مندی‌ها`
                 }
-                className="text-muted-foreground hover:text-danger shrink-0 p-1"
+                className="text-muted-foreground hover:text-danger tap-scale shrink-0 p-1"
               >
                 <Heart
                   className={cn(
-                    "h-4 w-4",
+                    "h-4 w-4 transition-colors",
                     isFavorite(makeCityId(city.latitude, city.longitude)) &&
                       "fill-danger text-danger",
                   )}

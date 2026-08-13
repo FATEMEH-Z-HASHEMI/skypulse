@@ -31,7 +31,7 @@ export function AirQualityCard({ data }: { data: AirQualitySnapshot }) {
 
       <div className="bg-muted relative mt-3 h-2 w-full overflow-hidden rounded-full">
         <div
-          className={`absolute h-full rounded-full ${level.barClass}`}
+          className={`absolute h-full rounded-full transition-[width] duration-500 ease-out ${level.barClass}`}
           style={{ width: `${gaugePercent}%` }}
         />
       </div>

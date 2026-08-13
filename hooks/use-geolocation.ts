@@ -15,6 +15,15 @@ interface State {
   coords: Coordinates | null;
 }
 
+// Open-Meteo's forecast grid is far coarser than GPS precision, and the
+// raw browser API returns ~15 significant digits that differ slightly on
+// every call — using them as-is fragments the React Query cache key (and
+// bloats request URLs) for zero real accuracy gain. Two decimals (~1.1km)
+// is plenty for city-level weather.
+function round(value: number) {
+  return Math.round(value * 100) / 100;
+}
+
 export function useGeolocation() {
   const [state, setState] = useState<State>({ status: "idle", coords: null });
 
@@ -29,8 +38,8 @@ export function useGeolocation() {
         setState({
           status: "granted",
           coords: {
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
+            latitude: round(pos.coords.latitude),
+            longitude: round(pos.coords.longitude),
           },
         }),
       (err) =>

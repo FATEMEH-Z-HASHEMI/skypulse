@@ -15,13 +15,13 @@ export function SheetContent({
 }: ComponentProps<typeof RadixDialog.Content>) {
   return (
     <RadixDialog.Portal>
-      <RadixDialog.Overlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm data-[state=open]:animate-[fade-in_150ms_ease-out]" />
+      <RadixDialog.Overlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm data-[state=closed]:animate-[fade-out_150ms_ease-in] data-[state=open]:animate-[fade-in_150ms_ease-out]" />
       <RadixDialog.Content
         className={cn(
-          // The app is RTL-only for now, so the panel's logical "end" edge
-          // is physically the left — hence slide-in-from-left.
+          // The app is RTL-only for now, so the panel's logical "end"
+          // edge is physically the left — hence slide-in-from-left.
           "border-border bg-card fixed inset-y-0 end-0 z-50 flex w-full max-w-sm flex-col border-s shadow-2xl",
-          "data-[state=open]:animate-[slide-in-from-left_200ms_ease-out]",
+          "data-[state=closed]:animate-[slide-out-to-left_180ms_ease-in] data-[state=open]:animate-[slide-in-from-left_200ms_ease-out]",
           "focus-visible:outline-none",
           className,
         )}
@@ -29,7 +29,7 @@ export function SheetContent({
       >
         {children}
         <RadixDialog.Close
-          className="text-muted-foreground hover:bg-muted absolute end-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-none"
+          className="text-muted-foreground hover:bg-muted tap-scale absolute end-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-none"
           aria-label="بستن"
         >
           <X className="h-4 w-4" />

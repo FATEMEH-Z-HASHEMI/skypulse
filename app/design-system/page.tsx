@@ -79,7 +79,7 @@ function Section({
 
 export default function DesignSystemPage() {
   return (
-    <main className="bg-background min-h-screen pb-24">
+    <div className="bg-background pb-24">
       <Container>
         <header className="border-border border-b py-10">
           <span className="text-muted-foreground text-xs font-medium tracking-wide">
@@ -236,6 +236,6 @@ export default function DesignSystemPage() {
           </div>
         </Section>
       </Container>
-    </main>
+    </div>
   );
 }

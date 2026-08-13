@@ -19,13 +19,13 @@ export function DialogContent({
       <RadixDialog.Overlay
         className={cn(
           "fixed inset-0 z-50 bg-black/40 backdrop-blur-sm",
-          "data-[state=open]:animate-[fade-in_150ms_ease-out]",
+          "data-[state=closed]:animate-[fade-out_150ms_ease-in] data-[state=open]:animate-[fade-in_150ms_ease-out]",
         )}
       />
       <RadixDialog.Content
         className={cn(
           "border-border bg-card fixed top-24 left-1/2 z-50 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border shadow-2xl",
-          "data-[state=open]:animate-[scale-in_150ms_ease-out]",
+          "data-[state=closed]:animate-[scale-out_120ms_ease-in] data-[state=open]:animate-[scale-in_150ms_ease-out]",
           "focus-visible:outline-none",
           className,
         )}
@@ -34,7 +34,7 @@ export function DialogContent({
         {children}
         {showClose && (
           <RadixDialog.Close
-            className="text-muted-foreground hover:bg-muted absolute end-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-none"
+            className="text-muted-foreground hover:bg-muted tap-scale absolute end-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-none"
             aria-label="بستن"
           >
             <X className="h-4 w-4" />
