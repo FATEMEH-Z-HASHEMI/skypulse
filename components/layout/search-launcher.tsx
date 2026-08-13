@@ -86,13 +86,13 @@ export function SearchLauncher() {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="border-border bg-muted/60 text-muted-foreground hover:border-ring/40 tap-scale hidden h-10 w-full max-w-sm items-center gap-2 rounded-lg border px-3 text-sm transition-colors md:flex"
+          className="border-border cursor-pointer bg-muted/60 text-muted-foreground hover:border-ring/40 tap-scale hidden h-10 w-full max-w-sm items-center gap-2 rounded-lg border px-3 text-sm transition-colors md:flex"
         >
           <Search className="h-4 w-4 shrink-0" />
-          <span className="flex-1 text-start">جستجوی شهر...</span>
+          <span className="flex-1 text-start opacity-60 hover:opacity-100">جستجوی شهر...</span>
           <kbd
             dir="ltr"
-            className="border-border bg-card rounded border px-1.5 py-0.5 font-sans text-[10px]"
+            className="border-border bg-card rounded border px-1 pb-0.5 pt-1.5 font-sans text-[10px]"
           >
             ⌘K
           </kbd>
